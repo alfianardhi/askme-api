@@ -1,0 +1,17 @@
+{
+  "name": "askme-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:alfianardhi/askme-api.git",
+  "author": "Alfian Ardhi",
+  "license": "MIT",
+  "scripts": {
+    "tsc": "rm -rf build/ && tsc",
+    "ts": "rm -rf build/ && tsc -w",
+    "dev": "nodemon ./build/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "typescript": "^4.1.3"
+  }
+}
