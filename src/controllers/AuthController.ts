@@ -17,9 +17,40 @@ class AuthController {
         return res.send("Register Success");
     }
     
-    login(req: Request, res: Response) : Response {
+    login = async (req: Request, res: Response) : Promise<Response> => {
+        
+        let errMessage:string = "";
 
-        return res.send("Login Success");
+        //Get data user
+        let { username, password } = req.body;
+
+        const user = await db.user.findOne({
+            where : {username: username}
+        });
+
+        if(user) {
+
+            // Check password
+            let passValid:boolean = await Authentication.passwordCompare(password, user.password);
+            
+            if(passValid){
+
+                //generate token
+                let token = Authentication.generateToken(user.id, username, user.password);
+                if(token){
+                    return res.send({token});
+                } else {
+                    errMessage = "generate token failed";
+                }
+
+            }else{
+                errMessage = "invalid password";
+            }
+        } else {
+            errMessage = "invalid user";
+        }
+
+        return res.send(errMessage);
     }
 
 }
