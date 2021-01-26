@@ -4,6 +4,9 @@ import morgan from "morgan";
 import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
+import dotenv from "dotenv";
+
+import AuthRouters from "./routers/AuthRouters";
 
 class App {
     public app:Application;
@@ -11,6 +14,7 @@ class App {
         this.app = express();
         this.libs();
         this.routes();
+        dotenv.config();
     }
 
     private libs(): void {
@@ -23,8 +27,10 @@ class App {
 
     private routes(): void {
         this.app.route('/').get((req:Request, res:Response) => {
-            res.send("hello rest api with typescript");
+            res.send("hello this is askme");
         });
+
+        this.app.use("/api/v1/auth", AuthRouters);
     }
 }
 
@@ -34,5 +40,5 @@ const port: number = 3000;
 app.listen(port, () => {
     console.log(`This app listening at http://localhost:${port}`);
 
-    //console.log(`This app run is ${process.env.DB_HOST}`);
+    console.log(`This app run is ${process.env.DB_HOST}`);
 });
