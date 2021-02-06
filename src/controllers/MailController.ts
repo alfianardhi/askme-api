@@ -1,14 +1,19 @@
 
 import { Request, Response } from "express";
 import nodemailer from "nodemailer";
+import IController from "./ControllerInterface";
+
 const db = require("../db/models");
 
 require("dotenv").config();
 
-class MailController {
+class MailController implements IController {
 
-    contact = async (req: Request, res: Response) : Promise<Response> => {
-        
+    index = (req: Request, res: Response) : Response => {
+        return res.send("index");
+    }
+
+    create = async(req: Request, res: Response) : Promise<Response> => {
         let status:number = 0;
         let { name, email, subject, message} = req.body;
 
@@ -71,6 +76,18 @@ class MailController {
         });
 
         return res;
+    }
+
+    show = (req: Request, res: Response) : Response => {
+        return res.send("");
+    }
+
+    update = (req: Request, res: Response) : Response => {
+        return res.send("");
+    }
+
+    delete = (req: Request, res: Response) : Response => {
+        return res.send("");
     }
 }
 export default new MailController();
