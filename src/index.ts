@@ -7,6 +7,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import AuthRouters from "./routers/AuthRouters";
+import AskmeRouters from './routers/AskmeRouters';
 
 class App {
     public app:Application;
@@ -31,6 +32,7 @@ class App {
         });
 
         this.app.use("/api/v1/auth", AuthRouters);
+        this.app.use("/api/v1/askme", AskmeRouters);
     }
 }
 
