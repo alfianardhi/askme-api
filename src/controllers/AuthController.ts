@@ -53,5 +53,9 @@ class AuthController {
         return res.send(errMessage);
     }
 
+    profile = (req: Request, res: Response) : Response => {
+        return res.send(req.app.locals.credential);
+    }
+
 }
 export default new AuthController();

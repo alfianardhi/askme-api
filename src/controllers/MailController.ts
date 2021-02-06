@@ -9,7 +9,7 @@ class MailController {
 
     contact = async (req: Request, res: Response) : Promise<Response> => {
         
-        let status = 0;
+        let status:number = 0;
         let { name, email, subject, message} = req.body;
 
         try {
