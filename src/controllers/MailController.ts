@@ -19,6 +19,24 @@ class MailController implements IController {
 
         try {
 
+            //notif
+            /*const mailDetails = {
+                from: process.env.EMAIL_ADDRESS, // sender address
+                to: email,
+                subject: subject,
+                html: `
+                <p>You have new contact request (email).</p>
+                <h3>Contact Details</h3>
+                <ul>
+                <li>Name: ${name}</li>
+                <li>Email: ${email}</li>
+                <li>Subject: ${subject}</li>
+                <li>Message: ${message}</li>
+                </ul>
+                `
+            };*/
+
+            //askme
             const mailDetails = {
                 from: email, // sender address
                 to: process.env.EMAIL_ADDRESS,
@@ -39,24 +57,28 @@ class MailController implements IController {
                 service: 'gmail',
                 auth: {
                     user: process.env.EMAIL_ADDRESS,
-                    pass: process.env.EMAIL_EMAIL_PASSWORD,
+                    pass: process.env.EMAIL_PASSWORD,
                 },
             });
 
-            await transporter.sendMail(mailDetails).catch(error => {
-                if (error) {
-                    status = 4;
-                    res.status(500).send({
-                        success: false,
-                        message: 'Something wrong. Try again later'
-                    });
-                } else {
-                    status = 5;
-                    res.send({
-                        success: true,
-                        message: 'Thanks for contacting us. We will get back to you shortly'
-                    });
-                }
+            await new Promise((resolve, reject) => {
+                transporter.sendMail(mailDetails, (error, data) => {
+                    if (error) {
+                        status = 4;
+                        res.status(500).send({
+                            success: false,
+                            message: 'Something wrong. Try again later'
+                        });
+                        reject(error);
+                    } else {
+                        status = 5;
+                        res.send({
+                            success: true,
+                            message: 'Thanks for contacting us. We will get back to you shortly'
+                        });
+                        resolve(data);
+                    }
+                });
             });
         
         } catch (error) {
