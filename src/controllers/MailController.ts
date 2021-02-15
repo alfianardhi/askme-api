@@ -3,17 +3,28 @@ import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import IController from "./ControllerInterface";
 
+import MailService from "../services/MailService";
+
 const db = require("../db/models");
 
 require("dotenv").config();
 
 class MailController implements IController {
 
-    index = (req: Request, res: Response) : Response => {
-        return res.send("index");
+    index = async (req: Request, res: Response) : Promise<Response> => {
+
+        const service: MailService = new MailService(req);
+
+        const mail = await service.getAll();
+
+          return res.send({
+            data: mail,
+            message:"get mail datas success"
+        });
     }
 
     create = async(req: Request, res: Response) : Promise<Response> => {
+
         let status:number = 0;
         let { name, email, subject, message} = req.body;
 
