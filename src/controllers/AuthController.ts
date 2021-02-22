@@ -17,7 +17,7 @@ class AuthController {
                 password: passwordHash
             });
     
-            res.status(200).send({
+            res.status(201).send({
                 message: 'Register Success'
             });
 
