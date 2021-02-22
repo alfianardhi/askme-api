@@ -13,14 +13,25 @@ class MailController implements IController {
 
     index = async (req: Request, res: Response) : Promise<Response> => {
 
-        const service: MailService = new MailService(req);
+        try{
 
-        const mail = await service.getAll();
+            const service: MailService = new MailService(req);
 
-          return res.send({
-            data: mail,
-            message:"get mail datas success"
-        });
+            const mail = await service.getAll();
+
+            res.status(200).send({
+                data: mail,
+                message:"get mail datas success"
+            });
+
+        }catch (error) {
+            res.status(500).send({
+                success: false,
+                message: 'Something wrong. Try again later'
+            });
+        }
+
+        return res;
     }
 
     create = async(req: Request, res: Response) : Promise<Response> => {
@@ -83,7 +94,7 @@ class MailController implements IController {
                         reject(error);
                     } else {
                         status = 5;
-                        res.send({
+                        res.status(200).send({
                             success: true,
                             message: 'Thanks for contacting us. We will get back to you shortly'
                         });

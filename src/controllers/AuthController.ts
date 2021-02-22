@@ -8,13 +8,27 @@ class AuthController {
     register = async (req: Request, res: Response) : Promise<Response> => {
         
         let { username, password } = req.body;
-        let passwordHash = await Authentication.passwordHash(password);
-        await db.user.create({
-            username: username,
-            password: passwordHash
-        });
 
-        return res.send("Register Success");
+        try{
+
+            let passwordHash = await Authentication.passwordHash(password);
+            await db.user.create({
+                username: username,
+                password: passwordHash
+            });
+    
+            res.status(200).send({
+                message: 'Register Success'
+            });
+
+        }catch (error) {
+            res.status(500).send({
+                success: false,
+                message: 'Something wrong. Try again later'
+            });
+        }
+
+        return res;
     }
     
     login = async (req: Request, res: Response) : Promise<Response> => {
@@ -38,19 +52,24 @@ class AuthController {
                 //generate token
                 let token = Authentication.generateToken(user.id, username, user.password);
                 if(token){
-                    return res.send({token});
+                    return res.status(200).send({
+                        token: token,
+                        message: 'Generate token success'
+                    });;
                 } else {
-                    errMessage = "generate token failed";
+                    errMessage = "Generate token failed";
                 }
 
             }else{
-                errMessage = "invalid password";
+                errMessage = "Invalid password";
             }
         } else {
-            errMessage = "invalid user";
+            errMessage = "Invalid user";
         }
 
-        return res.send(errMessage);
+        return res.status(500).send({
+            message: errMessage
+        });;
     }
 
     profile = (req: Request, res: Response) : Response => {
