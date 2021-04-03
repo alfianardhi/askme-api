@@ -9,7 +9,7 @@
     "tsc": "rm -rf build/ && tsc",
     "ts": "rm -rf build/ && tsc -w",
     "dev": "nodemon ./build/src/index.js",
-    "tests": "mocha --require ts-node/register test/**/*.ts"
+    "test": "mocha --require ts-node/register test/**/*.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",

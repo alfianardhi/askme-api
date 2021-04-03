@@ -35,7 +35,7 @@ class App {
     this.app.use('/api/v1/askme', AskmeRouters)
   }
 }
-
+// TODO: auth header, data caching redis
 const app = new App().app
 const port: number = 3000
 
