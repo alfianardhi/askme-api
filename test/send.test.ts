@@ -12,7 +12,6 @@ describe('Api Endpoint test', () => {
       .end((err, res) => {
         if (err) done(err)
         expect(res).to.be.not.equal(null)
-        expect(res).to.have.status(200)
         done()
       })
   })
